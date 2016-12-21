@@ -6,14 +6,40 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2016/12/18 18:20:31 by gmichaud         ###   ########.fr       */
+/*   Updated: 2016/12/21 09:33:47 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "get_next_line.h"
 #include "fillit.h"
-#include <stdio.h>
+
+/*
+** Deletes a 2D array (must be NULL terminated).
+*/
+
+void		darrdel(char ***tet)
+{
+	size_t	i;
+
+	i = 0;
+	if (tet)
+	{
+		while (i < 6)
+		{
+			if ((*tet)[i])
+				free((*tet)[i]);
+			i++;
+		}
+		free(*tet);
+		*tet = NULL;
+	}
+}
+
+/*
+** Creates 2D tab with one tetriminos grid inside.
+** Returns the 2D tab, or a NULL pointer if an error occured.
+** tet[0] will be NULL with a valid file if the end of file
+** has been reached.
+*/
 
 char		**read_tet(int fd)
 {
@@ -21,23 +47,29 @@ char		**read_tet(int fd)
 	int		line_cnt;
 	int		flg;
 
-	if (!(tet = (char**)malloc(sizeof(*tet) * 5)))
+	if (!(tet = (char**)malloc(sizeof(*tet) * 6)))
 		return (NULL);
+	line_cnt = 0;
+	while (line_cnt < 6)
+		tet[line_cnt++] = NULL;
 	line_cnt  = 0;
-	while ((flg = get_next_line(fd, &tet[line_cnt])) > 0
-			&& line_cnt < 4 && tet[line_cnt][0])
+	while (line_cnt < 4 && (flg = get_next_line(fd, &tet[line_cnt])) > 0
+			&& tet[line_cnt][0])
 		line_cnt++;
-	tet[line_cnt] = NULL;
-	if (flg == -1 || line_cnt != 4)
+	flg = get_next_line(fd, &tet[line_cnt]);
+	tet[++line_cnt] = NULL;
+	if (flg == -1 || line_cnt != 5 || (tet[4] && tet[4][0]))
 	{
-		line_cnt = 0;
-		while (tet[line_cnt++])
-			free(tet[line_cnt]);
-		free(tet);
-		return (NULL);
+		darrdel(&tet);
 	}
 	return (tet);
 }
+
+/*
+** Warning, this function must receive only valid files!
+** Returns the initial coords to calculate the absolute tetriminos coords.
+** The coords are stocked in  t_coord structure.
+*/
 
 t_coord		start_coord(char **tet)
 {
@@ -48,24 +80,27 @@ t_coord		start_coord(char **tet)
 	init_coord.x = 3;
 	init_coord.y = 3;
 	i = 0;
-	while (i < 4)
+	while (tet[i])
 	{
 		j = 0;
-		while (j < 4)
+		while (tet[i][j])
 		{
-			if (tet[i][j] == '#')
-			{
-				if (j < init_coord.x)
-					init_coord.x = j;
-				if (i < init_coord.y)
-					init_coord.y = i;
-			}
+			if (tet[i][j] == '#' && j < init_coord.x)
+				init_coord.x = j;
+			if (tet[i][j] == '#' && i < init_coord.y)
+				init_coord.y = i;
 			j++;
 		}
 		i++;
 	}
 	return (init_coord);
 }
+
+/*
+** Warning, this function must receive only valid files.
+** Uses the start_coord function to calculate the current tetri coords.
+** Returns a t_coord type array containing each block absolute coords.
+*/
 
 t_coord		*tetri_coord(char **tet)
 {
@@ -80,36 +115,44 @@ t_coord		*tetri_coord(char **tet)
 	k = 0;
 	init_coord = start_coord(tet);
 	i = init_coord.y;
-	while (i < 4 && k < 4)
+	while (tet[i] && k < 4)
 	{
 		j = init_coord.x;
-		while (j < 4 && k < 4)
+		while (tet[i][j] && k < 4)
 		{
-			if (tet[i][j] == '#')
+			if (tet[i][j++] == '#')
 			{
 				tet_coord[k].y = i - init_coord.y;
-				tet_coord[k].x = j - init_coord.x;
-				k++;
+				tet_coord[k++].x = j - 1 - init_coord.x;
 			}
-			j++;
 		}
 		i++;
 	}
 	return (tet_coord);
 }
 
-t_coord		*get_tet_list(int fd)
+/*
+** Calls the read_tet function and all the file validation functions.
+** If the file is valid, creates a t_coord arrays list to stock a the
+** tetriminos coords.
+** Returns the chained list, or a NULL pointer if an error occured.
+*/
+
+t_list		*get_tet_list(int fd)
 {
 	t_coord *tet_coord;
+	t_list	*tet_list;
+	t_list	*tmp;
 	char	**tet;
-	int		i;
 
-	tet = read_tet(fd);
-	tet_coord = tetri_coord(tet);
-	i = 0;
-	while (tet[i++])
-		free(tet[i]);
-	free(tet);
-	tet = NULL;
-	return (tet_coord);
+	tet_list = NULL;
+	while ((tet = read_tet(fd)) && tet[0] != NULL)
+	{
+		tet_coord = tetri_coord(tet);
+		tmp = ft_lstnew(tet_coord, sizeof(t_coord) * 4);
+		ft_lstadd(&tet_list, tmp);
+		ft_memdel((void**)&tet_coord);
+		darrdel(&tet);
+	}
+	return (tet_list);
 }

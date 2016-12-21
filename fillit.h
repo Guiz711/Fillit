@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/18 12:00:39 by gmichaud          #+#    #+#             */
-/*   Updated: 2016/12/18 18:00:31 by gmichaud         ###   ########.fr       */
+/*   Updated: 2016/12/21 09:33:21 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ typedef struct	s_coord
 	int			y;
 }				t_coord;
 
-char	**read_tet(int fd);
-t_coord	*get_tet_list(int fd);
+t_list			*get_tet_list(int fd);
 
 #endif
