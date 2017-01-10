@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 11:48:29 by gmichaud          #+#    #+#             */
-/*   Updated: 2016/12/18 11:39:15 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/02 15:26:12 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #include "get_next_line.h"
 
 /*
-** stockoline processes whatever is in the stock to create a new line and 
+** stocktoline processes whatever is in the stock to create a new line and 
 ** adjust the stock for the next get_next_line call.
 ** Forms a new line and returns 1 if a \n was found,
 ** 0 if no \n has been found, or -1 if an error occured.

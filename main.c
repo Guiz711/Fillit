@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 09:50:52 by gmichaud          #+#    #+#             */
-/*   Updated: 2016/12/19 12:59:54 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/10 15:55:35 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,22 @@
 #include <string.h>
 #include <stdio.h>
 
+void	print(t_sqr sqr)
+{
+	int y;
+
+	y = 0;
+	while (sqr.map[y])
+		ft_putendl(sqr.map[y++]);
+}
+
 int		main(int argc, char **argv)
 {
 	t_list		*tet_list;
 	int			fd;
-	int			i;
+	t_sqr		sqr;
+	int i;
+	int j;
 
 	if (argc != 2)
 	{
@@ -32,19 +43,18 @@ int		main(int argc, char **argv)
 		ft_putendl("Error");
 		return (0);
 	}
-	while(tet_list)
+	sqr.map = (char**)ft_memalloc(sizeof(sqr.map) * 5);
+	i = 0;
+	while (i < 4)
 	{
-		i = 0;
-		while (i < 4)
-		{
-			ft_putnbr(((t_coord*)tet_list->content)[i].x);
-			ft_putstr("; ");
-			ft_putnbr(((t_coord*)tet_list->content)[i].y);
-			ft_putchar('\n');
-			i++;
-		}
-		ft_putchar('\n');
-		tet_list = tet_list->next;
+		sqr.map[i] = (char*)ft_memalloc(sizeof(*sqr.map) * 5);
+		j = 0;
+		while (j < 4)
+			sqr.map[i][j++] = '.';
+		i++;
 	}
-	return (0);
+	sqr.map[i] = NULL;
+	sqr.size  = 4;
+	solve(tet_list, &sqr, 'A');
+	print(sqr);
 }

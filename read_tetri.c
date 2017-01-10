@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2016/12/21 09:33:47 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/10 11:35:08 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,15 +142,21 @@ t_list		*get_tet_list(int fd)
 {
 	t_coord *tet_coord;
 	t_list	*tet_list;
+	t_list	*last;
 	t_list	*tmp;
 	char	**tet;
 
 	tet_list = NULL;
+	last = NULL;
 	while ((tet = read_tet(fd)) && tet[0] != NULL)
 	{
 		tet_coord = tetri_coord(tet);
 		tmp = ft_lstnew(tet_coord, sizeof(t_coord) * 4);
-		ft_lstadd(&tet_list, tmp);
+		if (!tet_list)
+			tet_list = tmp;
+		else
+			ft_lstpush_back(last, tmp);
+		last = tmp;
 		ft_memdel((void**)&tet_coord);
 		darrdel(&tet);
 	}
