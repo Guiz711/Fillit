@@ -6,7 +6,7 @@
 /*   By: jgourdin <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:21:43 by jgourdin          #+#    #+#             */
-/*   Updated: 2017/01/09 17:03:00 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/10 15:39:27 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_fillit(t_list *tet_list)
 	while (check)
 	{
 		square = ft_square(tet_list, i)
-		if (solve(tet_list, square, let) == 0)
+		if (solve(tet_list, &square, let) == 0)
 		{
 			free(square);
 			++i;
