@@ -3,63 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   ft_back.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourdin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:21:43 by jgourdin          #+#    #+#             */
-/*   Updated: 2017/01/10 15:39:27 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/10 17:39:33 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "fillit.h"
 
-typedef struct		s_sqr
+static int		lst_len(t_list *lst)
 {
-	char			**map;
-	size_t			size;
-}					t_sqr;
+	int len;
 
-size_t		ft_size(size_t nb)
+	len = 0;
+	while (lst)
+	{
+		len++;
+		lst = lst->next;
+	}
+	return (len);
+}
+
+static int		ft_size(int nb)
 {
-	size_t	i;
+	int	i;
 
 	i = 1;
-	if ((int)nb < 0)
-		return (0);
-	while (i * i < nb)
+	while (i * i < nb * 4)
 		++i;
 	return (i);
 }
 
-t_sqr	ft_square(t_list *tet_list, int i)
+static t_sqr	ft_square(int size)
 {
-	size_t		size;
 	t_sqr		square;
-
-	size = lst_len(tet_list);
-	square.size = ft_square(size);
-	square.map = malloc(sizeof(char) * square.size + i);
+	int			i;
+	int			j;
+	
+	square.size = size;
+	if (!(square.map = (char**)ft_memalloc(sizeof(char*) * size + 1)))
+		return (square);
+	i = 0;
+	while (i < size)
+	{
+		if (!(square.map[i] = (char*)ft_memalloc(sizeof(char) * size + 1)))
+		{
+			square.map = NULL;
+			return (square);
+		}
+		j = 0;
+		while (j < size)
+			square.map[i][j++] = '.';
+		i++;
+	}
+	square.map[i] = NULL;
 	return (square);
 }
 
-void	ft_fillit(t_list *tet_list)
+int				find_square(t_list *tet_list)
 {
-	int			i;
-	char		let;
+	int			size;
 	int			check;
 	t_sqr		square;
 
-	i = 0;
-	let = 65;
-	while (check)
+	size = ft_size(lst_len(tet_list));
+	check  = 0;
+	while (!check)
 	{
-		square = ft_square(tet_list, i)
-		if (solve(tet_list, &square, let) == 0)
+		square = ft_square(size);
+		if (!square.map)
+			return (0);
+		if (!solve(tet_list, &square, 'A'))
 		{
-			free(square);
-			++i;
+			print(square);
+			return (1);
+			//darrdel(&square.map, size);
+			//++size;
 		}
 		else
 			check = 1;
 	}
 	print(square);
+	return (1);
 }

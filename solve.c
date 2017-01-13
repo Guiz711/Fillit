@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 10:04:52 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/10 15:54:45 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/10 17:44:06 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static void		del_tet(t_coord *tet, t_sqr *sqr, int pos, char ltr)
 	i = 0;
 	while (i < 4)
 	{
-		if (sqr->map[y + tet[i].y][x + tet[i].x] == ltr)
+		if (y + tet[i].y < sqr->size && x + tet[i].x < sqr->size
+			&& sqr->map[y + tet[i].y][x + tet[i].x] == ltr)
 			sqr->map[y + tet[i].y][x + tet[i].x] = '.';
 		i++;
 	}
@@ -95,7 +96,7 @@ int				solve(t_list *tet_list, t_sqr *sqr, char ltr)
 	t_coord *tet;
 
 	if (!tet_list)
-	return (1);
+		return (1);
 	tet = (t_coord*)tet_list->content;
 	pos = 0;
 	while (pos < sqr->size * sqr->size)

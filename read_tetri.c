@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/10 11:35:08 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/10 16:44:54 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 ** Deletes a 2D array (must be NULL terminated).
 */
 
-void		darrdel(char ***tet)
+void		darrdel(char ***dtab, size_t len)
 {
 	size_t	i;
 
 	i = 0;
-	if (tet)
+	if (dtab)
 	{
-		while (i < 6)
+		while (i < len)
 		{
-			if ((*tet)[i])
-				free((*tet)[i]);
+			if ((*dtab)[i])
+				free((*dtab)[i]);
 			i++;
 		}
-		free(*tet);
-		*tet = NULL;
+		free(*dtab);
+		*dtab = NULL;
 	}
 }
 
@@ -60,7 +60,7 @@ char		**read_tet(int fd)
 	tet[++line_cnt] = NULL;
 	if (flg == -1 || line_cnt != 5 || (tet[4] && tet[4][0]))
 	{
-		darrdel(&tet);
+		darrdel(&tet, 6);
 	}
 	return (tet);
 }
@@ -158,7 +158,7 @@ t_list		*get_tet_list(int fd)
 			ft_lstpush_back(last, tmp);
 		last = tmp;
 		ft_memdel((void**)&tet_coord);
-		darrdel(&tet);
+		darrdel(&tet, 6);
 	}
 	return (tet_list);
 }

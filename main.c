@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 09:50:52 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/10 15:55:35 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/10 17:26:19 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@ int		main(int argc, char **argv)
 {
 	t_list		*tet_list;
 	int			fd;
-	t_sqr		sqr;
-	int i;
-	int j;
 
 	if (argc != 2)
 	{
@@ -43,18 +40,10 @@ int		main(int argc, char **argv)
 		ft_putendl("Error");
 		return (0);
 	}
-	sqr.map = (char**)ft_memalloc(sizeof(sqr.map) * 5);
-	i = 0;
-	while (i < 4)
+	if (!find_square(tet_list))
 	{
-		sqr.map[i] = (char*)ft_memalloc(sizeof(*sqr.map) * 5);
-		j = 0;
-		while (j < 4)
-			sqr.map[i][j++] = '.';
-		i++;
+		ft_putendl("Error");
+		return (0);
 	}
-	sqr.map[i] = NULL;
-	sqr.size  = 4;
-	solve(tet_list, &sqr, 'A');
-	print(sqr);
+	return (0);
 }
