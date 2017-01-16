@@ -6,9 +6,11 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 11:48:29 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/02 15:26:12 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/16 16:51:03 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
 
 /*
 ** GET_NEXT_LINE :
@@ -24,10 +26,8 @@
 ** to be read, or -1 if an error occured.
 */
 
-#include "get_next_line.h"
-
 /*
-** stocktoline processes whatever is in the stock to create a new line and 
+** stocktoline processes whatever is in the stock to create a new line and
 ** adjust the stock for the next get_next_line call.
 ** Forms a new line and returns 1 if a \n was found,
 ** 0 if no \n has been found, or -1 if an error occured.
@@ -41,7 +41,7 @@ static int	stocktoline(char **stock, char **line)
 	len = 0;
 	while ((*stock)[len] && (*stock)[len] != '\n')
 		len++;
-	if (!(*line = ft_strnew(sizeof (**line) * len)))
+	if (!(*line = ft_strnew(sizeof(**line) * len)))
 		return (-1);
 	*line = ft_strncpy(*line, *stock, len);
 	if (!(*stock)[len])
@@ -57,7 +57,6 @@ static int	stocktoline(char **stock, char **line)
 	return (1);
 }
 
-
 /*
 ** bufftostock copies the content from buffer into stock.
 ** Returns 1 if it meets a \n, 0 if no \n was found or
@@ -69,7 +68,7 @@ static int	bufftostock(char *buff, char **stock, size_t size)
 	size_t	o_len;
 
 	o_len = (*stock ? ft_strlen(*stock) : 0);
-	if(!(*stock = ft_realloc(*stock, o_len + 1, o_len + size + 1)))
+	if (!(*stock = ft_realloc(*stock, o_len + 1, o_len + size + 1)))
 		return (-1);
 	while (size--)
 	{
@@ -88,7 +87,7 @@ int			get_next_line(int fd, char **line)
 	int			flg;
 
 	flg = (stock && ft_strchr(stock, '\n')) ? 1 : 0;
-	if(!(buff = ft_memalloc(BUFF_SIZE)))
+	if (!(buff = ft_memalloc(BUFF_SIZE)))
 		return (-1);
 	while (!flg && (ret = read(fd, buff, BUFF_SIZE)) > 0)
 		flg = bufftostock(buff, &stock, ret);

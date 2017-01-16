@@ -6,15 +6,12 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/13 18:56:34 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/16 16:20:03 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
-/*
-** Deletes a 2D array (must be NULL terminated).
-*/
 
 void		darrdel(char ***dtab, size_t len)
 {
@@ -53,12 +50,12 @@ int			read_tet(int fd, char ***tet)
 	line_cnt = 0;
 	while (line_cnt < 5)
 		(*tet)[line_cnt++] = NULL;
-	line_cnt  = 0;
+	line_cnt = 0;
 	while (line_cnt < 4 && (flg = get_next_line(fd, &(*tet)[line_cnt])) > 0)
 		line_cnt++;
 	if (flg > 0)
 		flg = get_next_line(fd, &trash);
-	if (line_cnt != 4 || (trash && trash[0]) || flg == -1 || !notetri(*tet) 
+	if (line_cnt != 4 || (trash && trash[0]) || flg == -1 || !notetri(*tet)
 		|| !wrgchar(*tet))
 	{
 		flg = -1;
@@ -157,9 +154,6 @@ t_list		*get_tet_list(int fd, t_list *tet_list)
 		{
 			tet_coord = tetri_coord(tet);
 			tmp = ft_lstnew(tet_coord, sizeof(t_coord) * 4);
-			//if (!tet_list)
-			//	tet_list = tmp;
-			//else
 			ft_lstpush_back(&tet_list, tmp);
 			ft_memdel((void**)&tet_coord);
 			darrdel(&tet, 5);
