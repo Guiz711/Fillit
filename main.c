@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 09:50:52 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/13 18:45:56 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/16 17:04:04 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	if (!(tet_list = get_tet_list(fd, tet_list)))
 	{
-		ft_putendl("Error");
+		ft_putendl("error");
 		return (0);
 	}
 	if (!find_square(tet_list))
