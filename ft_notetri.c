@@ -6,11 +6,11 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 17:50:09 by jgourdin          #+#    #+#             */
-/*   Updated: 2017/01/13 17:18:42 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/16 15:57:46 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include"fillit.h"
+#include "fillit.h"
 
 int		search(char **str, int i, int j)
 {

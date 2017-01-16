@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 10:04:52 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/11 10:53:56 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/16 16:17:37 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int		check_tet(t_coord *tet, t_sqr *sqr, int pos)
 int				solve(t_list *tet_list, t_sqr *sqr, char ltr)
 {
 	int		pos;
-	t_coord *tet;
+	t_coord	*tet;
 
 	if (!tet_list)
 		return (1);
@@ -100,8 +100,6 @@ int				solve(t_list *tet_list, t_sqr *sqr, char ltr)
 	pos = 0;
 	while (pos < sqr->size * sqr->size)
 	{
-		//print(*sqr);
-		//ft_putchar('\n');
 		if (check_tet(tet, sqr, pos))
 		{
 			wrt_tet(tet, sqr, pos, ltr);

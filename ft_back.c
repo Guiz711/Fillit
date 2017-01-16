@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/09 15:21:43 by jgourdin          #+#    #+#             */
-/*   Updated: 2017/01/11 11:03:14 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/16 15:57:10 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_sqr	ft_square(int size)
 	t_sqr		square;
 	int			i;
 	int			j;
-	
+
 	square.size = size;
 	if (!(square.map = (char**)ft_memalloc(sizeof(char*) * size + 1)))
 		return (square);
@@ -68,7 +68,7 @@ int				find_square(t_list *tet_list)
 	t_sqr		square;
 
 	size = ft_size(lst_len(tet_list));
-	check  = 0;
+	check = 0;
 	while (!check)
 	{
 		square = ft_square(size);
