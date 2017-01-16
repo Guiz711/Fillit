@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_notetri.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourdin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 17:50:09 by jgourdin          #+#    #+#             */
-/*   Updated: 2017/01/02 15:50:13 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/13 17:18:42 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include"fillit.h"
 
 int		search(char **str, int i, int j)
 {
@@ -32,7 +34,7 @@ int		search(char **str, int i, int j)
 	}
 	if (j < 3)
 	{
-		if (str[i][j + 1])
+		if (str[i][j + 1] == '#')
 			k++;
 	}
 	return (k);

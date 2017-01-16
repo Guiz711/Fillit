@@ -1,15 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Whatetri.c                                         :+:      :+:    :+:   */
+/*   ft_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgourdin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/09 11:47:56 by jgourdin          #+#    #+#             */
-/*   Updated: 2017/01/02 15:36:25 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/13 17:38:05 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-int		Error404(char **tetri)
+
+#include "fillit.h"
+
+int		wrgchar(char **tetri)
 {
 	int		i;
 	int		j;
@@ -28,11 +31,11 @@ int		Error404(char **tetri)
                 ++x;
             ++j;
         }
-        if (j != 3)
+        if (j != 4)
             return (0);
         ++i;
     }
-	if (tetri[i + 1] == '\0' && x == 4)
+	if (x == 4)
 		return (1);
 	return (0);
 }

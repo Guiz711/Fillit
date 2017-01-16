@@ -6,12 +6,12 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/10 16:44:54 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/13 18:56:34 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-
+#include <stdio.h>
 /*
 ** Deletes a 2D array (must be NULL terminated).
 */
@@ -41,28 +41,31 @@ void		darrdel(char ***dtab, size_t len)
 ** has been reached.
 */
 
-char		**read_tet(int fd)
+int			read_tet(int fd, char ***tet)
 {
-	char	**tet;
+	char	*trash;
 	int		line_cnt;
 	int		flg;
 
-	if (!(tet = (char**)malloc(sizeof(*tet) * 6)))
-		return (NULL);
+	trash = NULL;
+	if (!(*tet = (char**)malloc(sizeof(*tet) * 5)))
+		return (-1);
 	line_cnt = 0;
-	while (line_cnt < 6)
-		tet[line_cnt++] = NULL;
+	while (line_cnt < 5)
+		(*tet)[line_cnt++] = NULL;
 	line_cnt  = 0;
-	while (line_cnt < 4 && (flg = get_next_line(fd, &tet[line_cnt])) > 0
-			&& tet[line_cnt][0])
+	while (line_cnt < 4 && (flg = get_next_line(fd, &(*tet)[line_cnt])) > 0)
 		line_cnt++;
-	flg = get_next_line(fd, &tet[line_cnt]);
-	tet[++line_cnt] = NULL;
-	if (flg == -1 || line_cnt != 5 || (tet[4] && tet[4][0]))
+	if (flg > 0)
+		flg = get_next_line(fd, &trash);
+	if (line_cnt != 4 || (trash && trash[0]) || flg == -1 || !notetri(*tet) 
+		|| !wrgchar(*tet))
 	{
-		darrdel(&tet, 6);
+		flg = -1;
+		darrdel(tet, 5);
 	}
-	return (tet);
+	free(trash);
+	return (flg);
 }
 
 /*
@@ -138,27 +141,31 @@ t_coord		*tetri_coord(char **tet)
 ** Returns the chained list, or a NULL pointer if an error occured.
 */
 
-t_list		*get_tet_list(int fd)
+t_list		*get_tet_list(int fd, t_list *tet_list)
 {
 	t_coord *tet_coord;
-	t_list	*tet_list;
-	t_list	*last;
 	t_list	*tmp;
 	char	**tet;
+	int		flg;
 
-	tet_list = NULL;
-	last = NULL;
-	while ((tet = read_tet(fd)) && tet[0] != NULL)
+	tet = NULL;
+	flg = 1;
+	while (flg > 0)
 	{
-		tet_coord = tetri_coord(tet);
-		tmp = ft_lstnew(tet_coord, sizeof(t_coord) * 4);
-		if (!tet_list)
-			tet_list = tmp;
-		else
-			ft_lstpush_back(last, tmp);
-		last = tmp;
-		ft_memdel((void**)&tet_coord);
-		darrdel(&tet, 6);
+		flg = read_tet(fd, &tet);
+		if (flg != -1)
+		{
+			tet_coord = tetri_coord(tet);
+			tmp = ft_lstnew(tet_coord, sizeof(t_coord) * 4);
+			//if (!tet_list)
+			//	tet_list = tmp;
+			//else
+			ft_lstpush_back(&tet_list, tmp);
+			ft_memdel((void**)&tet_coord);
+			darrdel(&tet, 5);
+		}
 	}
+	if (flg == -1)
+		return (NULL);
 	return (tet_list);
 }
