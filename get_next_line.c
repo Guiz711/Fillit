@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 11:48:29 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/23 12:43:01 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/23 16:50:59 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	bufftostock(char *buff, char **stock, size_t size)
 		buff++;
 	}
 	(*stock)[o_len] = '\0';
-	return (strchr(*stock, '\n') ? 1 : 0);
+	return (ft_strchr(*stock, '\n') ? 1 : 0);
 }
 
 int			get_next_line(int fd, char **line)
