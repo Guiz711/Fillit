@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/05 09:50:52 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/23 17:04:56 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/23 17:12:38 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <string.h>
 #include <stdio.h>
 
-void lst_del(t_list **tet_list)
+void	lst_del(t_list **tet_list)
 {
 	t_list	*lst;
 	t_list	*lstnext;
@@ -30,7 +30,6 @@ void lst_del(t_list **tet_list)
 	}
 	*tet_list = NULL;
 }
-
 
 void	print(t_sqr sqr)
 {

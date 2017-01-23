@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/23 16:58:41 by gmichaud         ###   ########.fr       */
+/*   Updated: 2017/01/23 17:17:34 by gmichaud         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_coord		*tetri_coord(char **tet)
 ** Returns the chained list, or a NULL pointer if an error occured.
 */
 
-int		get_tet_list(int fd, t_list **tet_list)
+int			get_tet_list(int fd, t_list **tet_list)
 {
 	t_coord	*tet_coord;
 	char	**tet;
