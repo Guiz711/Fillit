@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/13 16:30:40 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/16 16:20:03 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/19 16:31:39 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,7 @@ int			read_tet(int fd, char ***tet)
 		flg = get_next_line(fd, &trash);
 	if (line_cnt != 4 || (trash && trash[0]) || flg == -1 || !notetri(*tet)
 		|| !wrgchar(*tet))
-	{
 		flg = -1;
-		darrdel(tet, 5);
-	}
 	free(trash);
 	return (flg);
 }
@@ -138,28 +135,25 @@ t_coord		*tetri_coord(char **tet)
 ** Returns the chained list, or a NULL pointer if an error occured.
 */
 
-t_list		*get_tet_list(int fd, t_list *tet_list)
+int		get_tet_list(int fd, t_list **tet_list)
 {
-	t_coord *tet_coord;
-	t_list	*tmp;
+	t_coord	*tet_coord;
 	char	**tet;
+	int		ret;
 	int		flg;
 
-	tet = NULL;
 	flg = 1;
-	while (flg > 0)
+	tet = NULL;
+	ret = read_tet(fd, &tet);
+	if (ret == 1)
+		flg = get_tet_list(fd, tet_list);
+	if (ret == -1 || !flg)
 	{
-		flg = read_tet(fd, &tet);
-		if (flg != -1)
-		{
-			tet_coord = tetri_coord(tet);
-			tmp = ft_lstnew(tet_coord, sizeof(t_coord) * 4);
-			ft_lstpush_back(&tet_list, tmp);
-			ft_memdel((void**)&tet_coord);
-			darrdel(&tet, 5);
-		}
+		darrdel(&tet, 5);
+		return (0);
 	}
-	if (flg == -1)
-		return (NULL);
-	return (tet_list);
+	tet_coord = tetri_coord(tet);
+	ft_lstadd(tet_list, ft_lstnew(tet_coord, sizeof(t_coord) * 4));
+	darrdel(&tet, 5);
+	return (1);
 }

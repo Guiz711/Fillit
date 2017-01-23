@@ -6,7 +6,7 @@
 /*   By: gmichaud <gmichaud@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/18 12:00:39 by gmichaud          #+#    #+#             */
-/*   Updated: 2017/01/16 16:24:18 by jgourdin         ###   ########.fr       */
+/*   Updated: 2017/01/19 16:28:07 by jgourdin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct	s_sqr
 	int			size;
 }				t_sqr;
 
-t_list			*get_tet_list(int fd, t_list *tet_list);
+int				get_tet_list(int fd, t_list **tet_list);
 int				solve(t_list *tet_list, t_sqr *sqr, char ltr);
 void			print(t_sqr sqr);
 void			darrdel(char ***dtab, size_t len);
